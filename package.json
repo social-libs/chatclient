@@ -1,0 +1,29 @@
+{
+  "name": "social_chatclientlib",
+  "version": "1.0.0",
+  "description": "AllexJS lib for consuming the ChatBank",
+  "main": "index.js",
+  "scripts": {
+    "test": "allex-mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/social-libs/chatclient.git"
+  },
+  "dependencies": {
+    "allex_arrayoperationslowlevellib": "1.x"
+  },
+  "keywords": [
+    "ecosystem:AllexJS",
+    "social",
+    "chat",
+    "client",
+    "lib"
+  ],
+  "author": "Andrija Petrovic <andrija.hers@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/social-libs/chatclient/issues"
+  },
+  "homepage": "https://github.com/social-libs/chatclient#readme"
+}
