@@ -10,9 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/social-libs/chatclient.git"
   },
-  "dependencies": {
-    "allex_arrayoperationslowlevellib": "1.x"
-  },
+  "dependencies": {},
   "keywords": [
     "ecosystem:AllexJS",
     "social",

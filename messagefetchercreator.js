@@ -41,10 +41,16 @@ function createMessageFetcher (lib) {
     return this.defer.promise;
   };
   MessageFetcherJob.prototype.onConversationNotification = function (ntf) {
-    console.log('onConversationNotification', ntf);
+    //console.log('onConversationNotification', ntf);
     if (!(ntf && ntf.id===this.conversationid && ntf.mids.length===2)) {
-      console.error(ntf);
-      console.error('ne valja');
+      //console.error(ntf);
+      //console.error('ne valja');
+      return;
+    }
+    if (ntf.rcvdby) {
+      return;
+    }
+    if (ntf.seenby) {
       return;
     }
     this.notifications.push(lib.extend({}, ntf.lastmessage, {id:ntf.mids[1]}));

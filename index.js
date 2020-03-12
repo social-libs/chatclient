@@ -1,8 +1,16 @@
 function createLib (execlib) {
+  'use strict';
+  return execlib.loadDependencies('client', ['allex:arrayoperations:lib', 'social:chatutils:lib'], libCreator.bind(null, execlib));
+}
+function libCreator (execlib, arryopslib, utilslib) {
+  'use strict';
 
+  var ConversationFetcherJobBase = require('./conversationfetcherbasecreator')(execlib.lib, arryopslib, utilslib);
 
   return {
-    AllConversationsOfUserFetcherJob: require('./conversationfetchercreator')(execlib.lib),
+    ConversationFetcherJobBase: ConversationFetcherJobBase,
+    AllConversationsOfUserFetcherJob: require('./conversationfetchercreator')(execlib.lib, ConversationFetcherJobBase),
+    ConversationsOfUserForUsersInitiatorJob: require('./conversationinitiatorcreator')(execlib.lib, ConversationFetcherJobBase),
     MessageFetcherJob: require('./messagefetchercreator')(execlib.lib)
   };
 }

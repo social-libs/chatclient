@@ -33,10 +33,6 @@ var flooddescs = {
 
 var zeroString = String.fromCharCode(0);
 
-// simulate browser core that has ArrayOperations
-
-lib.arryOperations = require('allex_arrayoperationslowlevellib')(lib.extend, lib.readPropertyFromDotDelimitedString, lib.isFunction, lib.Map, lib.AllexJSONizingError);
-
 function checkConversations (convs_ignored_because_global) {
   //console.log(require('util').inspect(Conversations, {depth:7, colors:true}));
 }
