@@ -124,6 +124,9 @@ function createConversationFetcherJobBase (lib, arryopslib, utilslib) {
       conv: conv[1],
       resolve: null
     };
+    if (ret.conv.lastm) {
+      utilslib.selfsubstituter(ret.conv.lastm, 'from', myname, lib.isArray(ret.conv.afu)); //does 'afu' exist in ret.conv for group conversations?
+    }
     if (ret.conv.name) {
       return ret;
     }

@@ -41,7 +41,6 @@ function createMessageFetcher (lib) {
     return this.defer.promise;
   };
   MessageFetcherJob.prototype.onConversationNotification = function (ntf) {
-    //console.log('onConversationNotification', ntf);
     if (!(ntf && ntf.id===this.conversationid && ntf.mids.length===2)) {
       //console.error(ntf);
       //console.error('ne valja');
