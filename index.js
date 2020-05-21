@@ -11,7 +11,7 @@ function libCreator (execlib, arryopslib, utilslib) {
     ConversationFetcherJobBase: ConversationFetcherJobBase,
     AllConversationsOfUserFetcherJob: require('./conversationfetchercreator')(execlib.lib, ConversationFetcherJobBase),
     ConversationsOfUserForUsersInitiatorJob: require('./conversationinitiatorcreator')(execlib.lib, ConversationFetcherJobBase, utilslib),
-    MessageFetcherJob: require('./messagefetchercreator')(execlib.lib)
+    MessageFetcherJob: require('./messagefetchercreator')(execlib.lib, utilslib)
   };
 }
 

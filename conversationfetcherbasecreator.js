@@ -38,7 +38,7 @@ function createConversationFetcherJobBase (lib, arryopslib, utilslib) {
     return this.defer.promise;
   };
   ConversationFetcherJobBase.prototype.onConversationsFetched = function (convs) {
-    console.log('onConversationsFetched', require('util').inspect(convs, {colors: true, depth: 7}));
+    //console.log('onConversationsFetched', require('util').inspect(convs, {colors: true, depth: 7}));
     var name = this.username;
     this._crossCheck(convs);
     convs.sort(convsorter);

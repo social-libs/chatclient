@@ -1,4 +1,4 @@
-function createMessageFetcher (lib) {
+function createMessageFetcher (lib, utilslib) {
   var q = lib.q,
     qlib = lib.qlib,
     JobBase = qlib.JobBase,
@@ -41,7 +41,7 @@ function createMessageFetcher (lib) {
     return this.defer.promise;
   };
   MessageFetcherJob.prototype.onConversationNotification = function (ntf) {
-    if (!(ntf && ntf.id===this.conversationid && ntf.mids.length===2)) {
+    if (!(ntf && ntf.id===this.conversationid && ntf.mids.length>0)) {
       //console.error(ntf);
       //console.error('ne valja');
       return;
@@ -55,13 +55,41 @@ function createMessageFetcher (lib) {
     this.notifications.push(lib.extend({}, ntf.lastmessage, {id:ntf.mids[1]}));
   };
   MessageFetcherJob.prototype.onMessages = function (msgs) {
-    var lastmsgid = msgs.length>0 ? msgs[msgs.length-1].id : undefined;
+    var lastmsgid, allmsgs, myid;
+    lastmsgid = msgs.length>0 ? msgs[msgs.length-1].id : undefined;
+    allmsgs = msgs.concat(this.notifications.filter(gt.bind(null, lastmsgid)).slice(-this.howmany));
     //console.log('onMessages', msgs);
     //console.log('onMessages my notifications', this.notifications);
     //console.log('onMessages', msgs[msgs.length-1]);
     //console.log('lastmsgid', lastmsgid);
-    this.resolve(msgs.concat(this.notifications.filter(gt.bind(null, lastmsgid))).slice(-this.howmany));
+    msgs.forEach(this.checkForNotRcvdByUserid.bind(this));
+    myid = this.userid;
+    allmsgs.forEach(personalizer.bind(null, myid));
+    myid = null;
+    this.resolve(allmsgs);
   };
+  MessageFetcherJob.prototype.checkForNotRcvdByUserid = function (msg) {
+    //console.log('checkForNotRcvdByUserid', msg);
+    if (!msg) {
+      return;
+    }
+    if (msg.from === null) {
+      return;
+    }
+    if (msg.rcvd) {
+      return;
+    }
+    this.notify({
+      conversationid: this.conversationid,
+      userid: this.userid,
+      messageid: msg.id
+    });
+  };
+
+  function personalizer (myid, msg) {
+    utilslib.rcvdseen2personal(msg, lib.isArray(msg.rcvdby), myid, 'rcvd', false);
+    utilslib.rcvdseen2personal(msg, lib.isArray(msg.rcvdby), myid, 'seen', false);
+  }
 
   function gt (lastmsgid, msg) {
     return msg.id>lastmsgid;
