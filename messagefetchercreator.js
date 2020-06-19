@@ -52,7 +52,7 @@ function createMessageFetcher (lib, utilslib) {
     if (ntf.seenby) {
       return;
     }
-    this.notifications.push(lib.extend({}, ntf.lastmessage, {id:ntf.mids[1]}));
+    this.notifications.push(lib.extend({}, ntf.lastm, {id:ntf.mids[1]}));
   };
   MessageFetcherJob.prototype.onMessages = function (msgs) {
     var lastmsgid, allmsgs, myid;

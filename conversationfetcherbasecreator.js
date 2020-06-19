@@ -70,7 +70,7 @@ function createConversationFetcherJobBase (lib, arryopslib, utilslib) {
       /*console.log([
         ntf.id,
         {
-          lastm: ntf.lastmessage
+          lastm: ntf.lastm
         }
       ]);*/
       //console.log('after');
@@ -79,18 +79,18 @@ function createConversationFetcherJobBase (lib, arryopslib, utilslib) {
         ntf.id,
         {
           rm: ntf.rm || c.rm,
-          lastm: ntf.lastmessage
+          lastm: ntf.lastm
         }
       ]);
     }
   }
 
   function compare(conv, ntf) {
-    if (!lib.isEqual(conv[1].lastm,ntf.lastmessage)) {
+    if (!lib.isEqual(conv[1].lastm,ntf.lastm)) {
       //console.log('not equal');
       //console.log(conv);
       //console.log(ntf);
-      conv[1].lastm = lib.extend({}, ntf.lastmessage);
+      conv[1].lastm = lib.extend({}, ntf.lastm);
       //console.log('so finally');
       //console.log(conv);
     } else {
@@ -119,10 +119,14 @@ function createConversationFetcherJobBase (lib, arryopslib, utilslib) {
     var sp, ind, myconv, ret;
     myconv = conv[1];
     myconv.nr = utilslib.nr2personal(myconv.nr, myname);
+    if ('cby' in myconv) {
+      utilslib.selfsubstituter(myconv, 'cby', myname, true);
+    }
+    //console.log('packer myconv?', myconv);
     ret = {
       id: conv[0],
       conv: conv[1],
-      resolve: null
+      resolve: utilslib.doresolve(conv[0], myname)
     };
     if (ret.conv.lastm) {
       utilslib.selfsubstituter(ret.conv.lastm, 'from', myname, lib.isArray(ret.conv.afu)); //does 'afu' exist in ret.conv for group conversations?
@@ -130,12 +134,14 @@ function createConversationFetcherJobBase (lib, arryopslib, utilslib) {
     if (ret.conv.name) {
       return ret;
     }
+    /*
     sp = conv[0].split(zeroString);
     ind = sp.length>1 ? sp.indexOf(myname) : -1;
     if (ind>=0) {
       sp.splice(ind,1);
       ret.resolve = sp.join(zeroString);
     }
+    */
     //console.log(conv, '=>', ret);
     return ret;
   }
